@@ -42,6 +42,24 @@
             <input type="text" v-model="textValue2"><br>
             <button type="button" v-bind:disabled="textValue === '' || textValue !== textValue2">전송</button>
         </div>
+        <hr>
+        <div>
+            <h3>p.107</h3>      <!-- v-bind: 축약형 => : -->
+            <div class="container" :class="{'active': isActive, 'text-red': hasError}">
+                Class Binding
+            </div>
+            <div class="container" :class="[activeClass, errorClass]">
+                Class Binding
+            </div>
+            <div class="container" :class="clsArr">
+                Class Binding
+            </div>
+        </div>
+        <hr>
+        <div>
+            <h3>p.110</h3>
+            <div :style="styleObj">인라인 스타일 바인딩</div>
+        </div>
     </div>
 </template>
 
@@ -58,6 +76,15 @@ export default {
             football: '1',
             textValue: '',
             textValue2: '',
+            isActive: true,
+            hasError: true,
+            activeClass: 'active',
+            errorClass: 'text-red',
+            clsArr: ['active', 'text-red'],
+            styleObj: {
+                color: 'red',
+                fontSize: '16px',   //font-size, background-color -> backgroundColor
+            },
         }
     },
     //computed : watch랑 비슷, 연산 프로퍼티, 복잡한 로직 사용 시
@@ -74,5 +101,7 @@ export default {
 </script>
 
 <style scoped>
-
+    .container { width: 100%; height: 200px; }
+    .active { background-color: yellow; font-weight: bold; }
+    .text-red { color: red; }
 </style>
