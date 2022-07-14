@@ -14,23 +14,21 @@ export default {
             boxOfficeByDay: 'boxoffice/searchDailyBoxOfficeList.json',
         }
     },
-    methods: {
-        async $api(url, data) {
-            return (await axios({
-                method: 'get',
-                url, 
-                data
+    methods: {  //.data 앞까지가 axios 실행 결과(객체)
+        async $api(url, param) {
+            return (await axios.get(url, {
+                params: param
             }).catch(e => {
                 console.log(e);
             })).data;
         },
         async getBoxOfficeByDay(targetDt) {
-            const data = {
+            const param = {
                 key: this.key,
                 targetDt
             }
             const url = this.baseUrl + this.boxOfficeByDay
-            return await this.$api(url, data);
+            return await this.$api(url, param);
         }
     }
 }
