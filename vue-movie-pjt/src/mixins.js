@@ -31,8 +31,7 @@ export default {
             return await this.$api(url, param);
         },
         getDateStr(date) {
-            const d = new Date();
-            return d.toISOString().split('T')[0];
+            return date.toISOString().split('T')[0];
         }
     }
 }

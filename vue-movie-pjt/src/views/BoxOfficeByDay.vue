@@ -39,7 +39,7 @@ export default {
     methods: {
         search() {
             const targetDt = this.selectedDate.replaceAll('-', '');
-            console.log(targetDt)
+            this.getData(targetDt);
         },
         async getData(targetDt) {
             const data = await this.getBoxOfficeByDay(targetDt)
@@ -47,7 +47,9 @@ export default {
         }
     },
     created() {
-        this.selectedDate = this.getDateStr(targetDt);
+        const d = new Date();
+        d.setDate(d.getDate() -1);
+        this.selectedDate = this.getDateStr(d)
     }
 }
 </script>
