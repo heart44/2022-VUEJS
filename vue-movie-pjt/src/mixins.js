@@ -9,9 +9,10 @@ import axios from "axios";
 export default {
     data() {
         return {
-            key: '1a0a7ecf96ad3364d8de70e91560767a',
+            key: '0beecfdd3a0eba0dbb97b9a5772fbf18',    //6교시부터 내 키값으로 바뀜
             baseUrl: 'http://www.kobis.or.kr/kobisopenapi/webservice/rest/',
             boxOfficeByDay: 'boxoffice/searchDailyBoxOfficeList.json',
+            boxOfficeByWeek: 'boxoffice/searchWeeklyBoxOfficeList.json',
         }
     },
     methods: {  //.data 앞까지가 axios 실행 결과(객체)
@@ -28,6 +29,15 @@ export default {
                 targetDt
             }
             const url = this.baseUrl + this.boxOfficeByDay
+            return await this.$api(url, param);
+        },
+        async getBoxOfficeByWeek(targetDt) {
+            const param = {
+                key: this.key,
+                targetDt,
+                weekGb : '0'
+            }
+            const url = this.baseUrl + this.boxOfficeByWeek
             return await this.$api(url, param);
         },
         getDateStr(date) {
