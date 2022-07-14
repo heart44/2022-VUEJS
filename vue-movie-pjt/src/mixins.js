@@ -9,6 +9,7 @@ import axios from "axios";
 export default {
     data() {
         return {
+            key: '1a0a7ecf96ad3364d8de70e91560767a',
             baseUrl: 'http://www.kobis.or.kr/kobisopenapi/webservice/rest/',
             boxOfficeByDay: 'boxoffice/searchDailyBoxOfficeList.json',
         }
@@ -23,8 +24,13 @@ export default {
                 console.log(e);
             })).data;
         },
-        async getBoxOfficeByDay() {
-            return await this.$api(this.baseUrl + this.boxOfficeByDay, {});
+        async getBoxOfficeByDay(targetDt) {
+            const data = {
+                key: this.key,
+                targetDt
+            }
+            const url = this.baseUrl + this.boxOfficeByDay
+            return await this.$api(url, data);
         }
     }
 }
