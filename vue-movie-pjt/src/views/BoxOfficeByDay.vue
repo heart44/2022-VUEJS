@@ -1,6 +1,10 @@
 <template>
     <div>
         <h1>BoxOfficeByDay</h1>
+        <div>
+            <input type="date" v-model="selectedDate">
+            <button @click="search">검색</button>
+        </div>
         <table>
             <thead>
                 <tr>
@@ -28,17 +32,22 @@
 export default {
     data() {
         return {
+            selectedDate: '',
             list: []
         }
     },
     methods: {
-        async getData() {
-            const data = await this.getBoxOfficeByDay('20211212')
+        search() {
+            const targetDt = this.selectedDate.replaceAll('-', '');
+            console.log(targetDt)
+        },
+        async getData(targetDt) {
+            const data = await this.getBoxOfficeByDay(targetDt)
             this.list = data.boxOfficeResult.dailyBoxOfficeList
         }
     },
     created() {
-        this.getData();
+        this.selectedDate = this.getDateStr(targetDt);
     }
 }
 </script>

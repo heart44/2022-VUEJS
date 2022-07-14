@@ -29,6 +29,10 @@ export default {
             }
             const url = this.baseUrl + this.boxOfficeByDay
             return await this.$api(url, param);
+        },
+        getDateStr(date) {
+            const d = new Date();
+            return d.toISOString().split('T')[0];
         }
     }
 }
