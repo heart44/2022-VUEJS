@@ -58,23 +58,22 @@ export default {
             }
         },
         common() {
-            const d = new Date();
             this.pathName = this.$route.name;
             switch(this.pathName) {
                 case 'boxOfficeByDay':
                     this.title = '일별 박스오피스'
-                    d.setDate(d.getDate() -1);
                     break
                 case 'boxOfficeByWeek':
                     this.title = this.titleType
-                    d.setDate(d.getDate() -7);
                     break
             }
-            this.selectedDate = this.getDateStr(d)
         }
     },
     created() {
         this.common()
+        const d = new Date()
+        d.setDate(d.getDate() -1);
+        this.selectedDate = this.getDateStr(d)
         this.weekGb = 0;
     },
     updated() {

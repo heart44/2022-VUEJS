@@ -9,7 +9,7 @@ import axios from "axios";
 export default {
     data() {
         return {
-            key: '0beecfdd3a0eba0dbb97b9a5772fbf18',    //6교시부터 내 키값으로 바뀜
+            key: '37ece8450b3e074b4b6ce0e71e8e3164',  //'0beecfdd3a0eba0dbb97b9a5772fbf18',    //6교시부터 내 키값으로 바뀜
             baseUrl: 'http://www.kobis.or.kr/kobisopenapi/webservice/rest/',
             boxOfficeByDay: 'boxoffice/searchDailyBoxOfficeList.json',
             boxOfficeByWeek: 'boxoffice/searchWeeklyBoxOfficeList.json',
