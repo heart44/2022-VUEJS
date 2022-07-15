@@ -1,0 +1,52 @@
+CREATE TABLE t_user(
+	social_type INT UNSIGNED NOT NULL COMMENT '0-local, 1-kakao, 2-naver, 3-google, 4-github, 5-facebook', 
+	email VARCHAR(50) NOT NULL,
+	TYPE INT UNSIGNED NOT NULL DEFAULT 1 COMMENT '1-buyer, 2-seller',
+	nickname VARCHAR(50) DEFAULT NULL,
+	profile_img VARCHAR(100),
+	thumb_img VARCHAR(100),
+	created_at DATETIME DEFAULT NOW(),
+	updated_at DATETIME DEFAULT NOW(),
+	PRIMARY KEY (sshopocial_type, email)
+);
+
+CREATE TABLE t_seller(
+	id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+	name VARCHAR(100) NOT NULL DEFAULT '',
+	email VARCHAR(100) NOT NULL DEFAULT '',
+	phone VARCHAR(20) NOT NULL DEFAULT '',
+	PRIMARY KEY (id)
+);
+
+CREATE TABLE t_category(
+	id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+	cate1 VARCHAR(100) NOT NULL DEFAULT '',
+	cate2 VARCHAR(100) NOT NULL DEFAULT '',
+	cate3 VARCHAR(100) DEFAULT '',
+	PRIMARY KEY (id)
+);
+
+CREATE TABLE t_product(
+	id INT UNSIGNED NOT NULL AUTO_INCREMENT,
+	product_name VARCHAR(200) NOT NULL DEFAULT '',
+	product_price INT NOT NULL DEFAULT 0,
+	delivery_price INT NOT NULL DEFAULT 0,
+	add_delivery_price INT NOT NULL DEFAULT 0,
+	tags VARCHAR(100),
+	outbound_days INT NOT NULL DEFAULT 5,
+	seller_id INT UNSIGNED NOT NULL,
+	category_id INT UNSIGNED NOT NULL,
+	active_yn ENUM('Y', 'N') NOT NULL DEFAULT 'Y',
+	created_date DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP(),
+	FOREIGN KEY (seller_id) REFERENCES t_seller(id),
+	FOREIGN KEY (category_id) REFERENCES t_category(id),
+	PRIMARY KEY (id)
+);
+
+CREATE TABLE t_product_img(
+	id INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	product_id INT UNSIGNED NOT NULL,
+	TYPE INT NOT NULL DEFAULT 1 COMMENT '1-썸네일, 2-제품이미지, 3-제품설명이미지',
+	path VARCHAR(150) NOT NULL DEFAULT '',
+	FOREIGN KEY (product_id) REFERENCES t_product(id)
+);

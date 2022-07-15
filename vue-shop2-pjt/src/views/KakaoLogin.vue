@@ -26,17 +26,23 @@ export default {
                     const acc = res.kakao_account;
                     const params = {
                         email: acc.email,
-                        nm: acc.profile.nickname,
-                        
+                        nickname: acc.profile.nickname,
+                        profile_img: acc.profile.profile_image_url,
+                        thumb_img: acc.profile.thumbnail.profile_image_url,
                     }
-
+                    console.log(params);
                     alert('로그인 성공!');
                 },
                 fail: e => {
                     console.error(e);
                 }
             })
-        }
+        },
+        kakaoLogout() {
+            window.Kakao.Auth.logout( res => {
+                console.log(res);
+            });
+        },
     }
 }
 </script>
