@@ -1,9 +1,10 @@
 <template>
   <nav>
     <router-link to="/">Home</router-link> |
-    <router-link to="/about">About</router-link>
+    <router-link to="/storeAccess">스토어 접근</router-link> |
+    <router-link to="/storeAccess2">스토어 접근2</router-link>
   </nav>
-  <router-view/>
+  <router-view />
 </template>
 
 <style>
@@ -12,7 +13,7 @@
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  color: #2c3e50;
+  color: #432c50;
 }
 
 nav {
@@ -21,10 +22,10 @@ nav {
 
 nav a {
   font-weight: bold;
-  color: #2c3e50;
+  color: #4c2c50;
 }
 
 nav a.router-link-exact-active {
-  color: #42b983;
+  color: #a685e4;
 }
 </style>

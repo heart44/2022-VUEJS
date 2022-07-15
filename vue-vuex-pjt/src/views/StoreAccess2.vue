@@ -1,8 +1,7 @@
 <template>
     <div>
-        <p>Count : {{ count }}</p>
+        <p>Count2 : {{ count }}</p>
         <button type="button" @click="increment">증가</button>
-        <p>카트 상품 수 : {{ cartCount }}</p>
     </div>
 </template>
 
@@ -11,15 +10,10 @@ export default {
     computed: {
         count() {
             return this.$store.state.count;
-        },
-        cartCount() {
-            return this.$store.getters.cartCount;
         }
     },
     methods: {
         increment() {
-            // this.$store.state.count = 100;
-            // this.$store.commit('setCount', 200);
             this.$store.commit('increment');
         }
     }
