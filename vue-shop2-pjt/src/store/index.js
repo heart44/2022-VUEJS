@@ -1,16 +1,20 @@
-import Vuex from 'vuex'
+import { createStore } from 'vuex'
 import createPersistedstate from 'vuex-persistedstate'
 
-export default new Vuex.Store({
-    state: {
-        iuser: 0
+export default createStore({
+    state() {
+        return {
+            user: {}
+        }
     },
     mutations: {
-        setIuser: (state, iuser) => {
-            state.iuser = iuser;
+        user: (state, data) => {
+            state.user = data;
         }
     },
     plugins: [
-        createPersistedstate()
+        createPersistedstate({
+            paths: ['user']     //값이 유지되는게 user일때만 저장하겠다
+        })
     ]
 });

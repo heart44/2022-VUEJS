@@ -16,13 +16,19 @@
                     <li class="nav-item">
                         <router-link class="nav-link" to="/detail">제품상세페이지</router-link>
                     </li>
-                    <li  class="nav-item">
+                    <li v-if="user.email !== undefined" class="nav-item">
                         <router-link class="nav-link" to="/sales">제품등록페이지</router-link>
+                    </li>
+                    <li v-if="user.email === undefined">
+                        <button class="btn btn-warning" type="button" @click="kakaoLogin">로그인</button>
+                    </li>
+                    <li v-else>
+                        <button class="btn btn-warning" type="button" @click="kakaoLogout">로그아웃</button>
                     </li>
                 </ul>
                 <form class="d-flex">
                     <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success" type="submit">Search</button>
+                    <button class="btn btn-outline-success text-white border-white" type="submit">Search</button>
                 </form>
             </div>
         </div>
@@ -31,6 +37,59 @@
 
 <script>
 export default {
-    name: 'header'
+    name: 'header',
+    computed: {
+        user() {
+            return this.$store.state.user
+        }
+    },
+    methods: {
+        kakaoLogin() {
+            window.Kakao.Auth.login({
+                scope: 'profile_nickname, profile_image, account_email',
+                success: this.getProfile,
+                fail: e => {
+                    console.error(e);
+                }
+            });
+        },
+        getProfile(authObj) {
+            console.log(authObj);
+            window.Kakao.API.request({
+                url: '/v2/user/me',
+                success: async res => {
+                    const acc = res.kakao_account;
+                    const params = {
+                        social_type: 1,
+                        email: acc.email,
+                        nickname: acc.profile.nickname,
+                        profile_img: acc.profile.profile_image_url,
+                        thumb_img: acc.profile.thumbnail_image_url
+                    }
+                    console.log(params);
+                    this.login(params);
+                },
+                fail: e => {
+                    console.error(e);
+                }
+            })
+        },
+        async login(params) {
+            const data = await this.$api('/user/signup', params);
+            console.log('user : ' + data.result);
+            params.iuser = data.result;
+            this.$store.commit('user', params);
+        },
+        kakaoLogout() {
+            window.Kakao.Auth.logout(async res => {
+                console.log(res);
+                this.$store.commit('user', {});
+                this.$router.push({path: '/'}); //라우터 주소 이동 (선택사항)
+
+                //백엔드 쪽 로그아웃 처리
+                await this.$api('/user/logout');
+            });
+        },
+    }
 }
 </script>
