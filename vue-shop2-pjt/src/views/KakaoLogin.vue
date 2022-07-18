@@ -22,15 +22,20 @@ export default {
         getkakaoAccount() {
             window.Kakao.API.request({
                 url: '/v2/user/me',
-                success: res => {
+                success: async res => {
                     const acc = res.kakao_account;
                     const params = {
+                        social_type: 1,
                         email: acc.email,
                         nickname: acc.profile.nickname,
                         profile_img: acc.profile.profile_image_url,
-                        thumb_img: acc.profile.thumbnail.profile_image_url,
+                        thumb_img: acc.profile.thumbnail_image_url,
                     }
                     console.log(params);
+
+                    const data = await this.$api('/user/signup', params);
+                    console.log('iuser : ' + data.result);
+
                     alert('로그인 성공!');
                 },
                 fail: e => {
