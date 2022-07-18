@@ -39,21 +39,22 @@
                 <label class="col-md-3 col-form-label">카테고리</label>
                 <div class="col-md-9">
                     <div class="row">
-                        <div class="col-auto">
-                            <select class="form-select" v-model="cate1" @change="changeCategory1">
-                                <option :key="i" v-for="(cate1, i) in category1">{{ cate1 }}</option>
+                        <div class="col-auto">              
+                            <select class="form-select" v-model="cate1" @change="changeCate1">
+                                <option :key="name" v-for="(value, name) of categoryObj">{{ name }}</option>
                             </select>
                         </div>
-                        <div class="col-auto">
-                            <select class="form-select" v-model="cate2" @change="changeCategory2">
-                                <option :key="i" v-for="(cate2, i) in category2">{{ cate2 }}</option>
+                        <div class="col-auto" v-if="cate1 !== ''">
+                            <select class="form-select" v-model="cate2" @change="changeCate2">
+                                <option :key="name" v-for="(value, name) of categoryObj[cate1]">{{ name }}</option>     <!-- of: 객체-->
                             </select>
                         </div>
-                        <div class="col-auto">
-                            <select class="form-select" v-model="cate3">
-                                <option :key="i" v-for="(cate3, i) in category3">{{ cate3 }}</option>
+                        <div class="col-auto" v-if="cate2 !== ''">
+                            <select class="form-select" v-model="selectedCateId">   <!-- in: 배열-->
+                                <option :value="cate.id" :key="cate.id" v-for="cate in categoryObj[cate1][cate2]">{{ cate.value }}</option>
                             </select>
                         </div>
+                        {{ selectedCateId }}
                     </div>
                 </div>
             </div>
@@ -98,13 +99,10 @@ export default {
                 category_id: 1,
                 seller_id: 1
             },
-            categoryList: [],
-            category1: [],
-            category2: [],
-            category3: [],
+            categoryObj: {},
             cate1: '',
             cate2: '',
-            cate3: '',
+            selectedCateId: '',
         }
     },
     created() {
@@ -114,35 +112,33 @@ export default {
         async getCategoryList() {
             const categoryList = await this.$get('/api/categoryList', {});
             console.log(categoryList);
-            this.categoryList = categoryList;
-
-            const oCategory = {};
+            let cate1 = '';
+            let cate2 = '';      
             categoryList.forEach(item => {
-                oCategory[item.cate1] = 1;    //ocategory['전자제품'] = 1;, 아이디값은 안써서 아무 값 넣어도 됨
-            });
+                if(item.cate1 !== cate1) {
+                    cate1 = item.cate1;
+                    this.categoryObj[cate1] = {};
+                    cate2 = '';          
+                }
 
-            const cate1 = []
-            for(const key in oCategory) {
-                cate1.push(key);
-            }
-            this.category1 = cate1;
+                if(item.cate2 !== cate2) {
+                    cate2 = item.cate2;
+                    this.categoryObj[cate1][cate2] = [];
+                }   
 
-            let cate2 = categoryList.filter(c => {
-                return c.cate1 === cate1[0];
-            });
-            this.cate1 = cate1[0];
-
-            const oCategory2 = {};
-            cate2.forEach(item => {
-                oCategory2[item.cate2] = 1;
-                console.log('dddd' + item.cate2);
-            });
-
-            const category2 = [];
-            for(const key in oCategory2) {
-                category2.push(key);
-            }
-            this.category2 = category2;
+                const obj = {
+                    id: item.id,
+                    value: item.cate3
+                };
+                this.categoryObj[cate1][cate2].push(obj);
+            });      
+        },
+        changeCate1() {
+            this.cate2 = '';
+            this.selectedCateId = '';
+        },
+        changeCate2() {
+            this.selectedCateId = '';
         },
         goToList() {
             this.$router.push({path: '/sales'});
