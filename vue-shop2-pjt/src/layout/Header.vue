@@ -14,10 +14,10 @@
                         <router-link class="nav-link active" to="/">제품리스트</router-link>
                     </li>
                     <li class="nav-item">
-                        <router-link class="nav-link" to="/detail">제품상세페이지</router-link>
+                        <router-link class="nav-link" to="/detail">제품상세</router-link>
                     </li>
-                    <li v-if="user.email !== undefined" class="nav-item">
-                        <router-link class="nav-link" to="/sales">제품등록페이지</router-link>
+                    <li  class="nav-item">
+                        <router-link class="nav-link" to="/sales">제품등록</router-link>
                     </li>
                     <li v-if="user.email === undefined">
                         <button class="btn btn-warning" type="button" @click="kakaoLogin">로그인</button>
@@ -75,7 +75,7 @@ export default {
             })
         },
         async login(params) {
-            const data = await this.$api('/user/signup', params);
+            const data = await this.$post('/user/signup', params);
             console.log('user : ' + data.result);
             params.iuser = data.result;
             this.$store.commit('user', params);
@@ -87,7 +87,7 @@ export default {
                 this.$router.push({path: '/'}); //라우터 주소 이동 (선택사항)
 
                 //백엔드 쪽 로그아웃 처리
-                await this.$api('/user/logout');
+                await this.$post('/user/logout');
             });
         },
     }

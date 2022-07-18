@@ -39,7 +39,7 @@ export default {
                     }
                     console.log(params);
 
-                    const iuser = await this.$api('/user/signup', params);
+                    const iuser = await this.$post('/user/signup', params);
                     console.log('iuser : ' + iuser.result);
 
                     this.$store.commit('setIuser', iuser.result);
