@@ -1,87 +1,100 @@
 <template>
-    <main class="mt-3">
-        <div class="container">
-            <h2 class="text-center">제품등록</h2>
-            <div class="mb-3 row">
-                <label class="col-md-3 col-form-label">제품명</label>
-                <div class="col-md-9">
-                    <input type="text" class="form-control" ref="product_name" v-model="product.product_name">
-                </div>
-            </div>
-            <div class="mb-3 row">
-                <label class="col-md-3 col-form-label">제품가격</label>
-                <div class="col-md-9">
-                    <div class="input-group mb-3">
-                        <input type="number" class="form-control" ref="product_price" v-model="product.product_price">
-                        <span class="input-group-text">원</span>
-                    </div>
-                </div>
-            </div>
-            <div class="mb-3 row">
-                <label class="col-md-3 col-form-label">배송비</label>
-                <div class="col-md-9">
-                    <div class="input-group mb-3">
-                        <input type="number" class="form-control" ref="delivery_price" v-model="product.delivery_price">
-                        <span class="input-group-text">원</span>
-                    </div>
-                </div>
-            </div>
-            <div class="mb-3 row">
-                <label class="col-md-3 col-form-label">추가배송비(도서산간)</label>
-                <div class="col-md-9">
-                    <div class="input-group mb-3">
-                        <input type="number" class="form-control" v-model="product.add_delivery_price">
-                        <span class="input-group-text">원</span>
-                    </div>
-                </div>
-            </div>
-            <div class="mb-3 row">
-                <label class="col-md-3 col-form-label">카테고리</label>
-                <div class="col-md-9">
-                    <div class="row">
-                        <div class="col-auto">              
-                            <select class="form-select" v-model="cate1" @change="changeCate1">
-                                <option :key="name" v-for="(value, name) of categoryObj">{{ name }}</option>
-                            </select>
-                        </div>
-                        <div class="col-auto" v-if="cate1 !== ''">
-                            <select class="form-select" v-model="cate2" @change="changeCate2">
-                                <option :key="name" v-for="(value, name) of categoryObj[cate1]">{{ name }}</option>     <!-- of: 객체-->
-                            </select>
-                        </div>
-                        <div class="col-auto" v-if="cate2 !== ''">
-                            <select class="form-select" v-model="product.category_id">   <!-- in: 배열-->
-                                <option :value="cate.id" :key="cate.id" v-for="cate in categoryObj[cate1][cate2]">{{ cate.value }}</option>
-                            </select>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <div class="mb-3 row">
-                <label class="col-md-3 col-form-label">태그</label>
-                <div class="col-md-9">
-                    <input type="text" class="form-control" v-model="product.tags">
-                </div>
-            </div>
-            <div class="mb-3 row">
-                <label class="col-md-3 col-form-label">출고일</label>
-                <div class="col-md-9">
-                    <div class="input-group mb-3">
-                        <input type="number" class="form-control" ref="outbount_days" v-model="product.outbound_days">
-                        <span class="input-group-text">일 이내 출고</span>
-                    </div>
-                </div>
-            </div>
-            <div class="mb-3 row">
-                <div class="col-6 d-grid p-1">
-                    <button type="button" class="btn btn-lg btn-dark" @click="goToList">취소하기</button>
-                </div>
-                <div class="col-6 d-grid p-1">
-                    <button type="button" class="btn btn-lg btn-danger" @click="productInsert">저장하기</button>
-                </div>
-            </div>
+  <main class="mt-3">
+    <div class="container">
+      <h2 class="text-center">제품등록</h2>
+      
+      <div class="mb-3 row">
+        <label class="col-md-3 col-form-label">제품명</label>
+        <div class="col-md-9">
+          <input type="text" class="form-control" ref="product_name" v-model="product.product_name">
         </div>
-    </main>
+      </div>
+
+      <div class="mb-3 row">
+        <label class="col-md-3 col-form-label">제품가격</label>
+        <div class="col-md-9">
+          <div class="input-group mb-3">
+            <input type="number" class="form-control" ref="product_price" v-model="product.product_price">
+            <span class="input-group-text">원</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-3 row">
+        <label class="col-md-3 col-form-label">배송비</label>
+        <div class="col-md-9">
+          <div class="input-group mb-3">
+            <input type="number" class="form-control" ref="delivery_price" v-model="product.delivery_price">
+            <span class="input-group-text">원</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-3 row">
+        <label class="col-md-3 col-form-label">추가배송비(도서산간)</label>
+        <div class="col-md-9">
+          <div class="input-group mb-3">
+            <input type="number" class="form-control" v-model="product.add_delivery_price">
+            <span class="input-group-text">원</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-3 row">
+        <label class="col-md-3 col-form-label">카테고리</label>
+        <div class="col-md-9">
+          
+          <div class="row">
+            <div class="col-auto">              
+              <select class="form-select" v-model="cate1" @change="changeCate1">
+                <option :key="name" v-for="(value, name) of categoryObj">{{ name }}</option>
+              </select>
+            </div>
+            
+            <div class="col-auto" v-if="cate1 !== ''">
+              <select class="form-select" v-model="cate2" @change="changeCate2">
+                <option :key="name" v-for="(value, name) of categoryObj[cate1]">{{ name }}</option>
+              </select>
+            </div>
+
+            <div class="col-auto" v-if="cate2 !== ''">
+              <select class="form-select" v-model="product.category_id">
+                <option :value="cate.id" :key="cate.id" v-for="cate in categoryObj[cate1][cate2]">{{ cate.value }}</option>
+              </select>
+            </div>
+            
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-3 row">
+        <label class="col-md-3 col-form-label">태그</label>
+        <div class="col-md-9">
+          <input type="text" class="form-control" v-model="product.tags">
+        </div>
+      </div>
+      
+      <div class="mb-3 row">
+        <label class="col-md-3 col-form-label">출고일</label>
+        <div class="col-md-9">
+          <div class="input-group mb-3">
+            <input type="number" class="form-control" ref="outbound_days" v-model="product.outbound_days">
+            <span class="input-group-text">일 이내 출고</span>
+          </div>
+        </div>
+      </div>
+
+      <div class="mb-3 row">
+        <div class="col-6 d-grid p-1">
+          <button type="button" class="btn btn-lg btn-dark" @click="goToList">취소</button>
+        </div>
+        <div class="col-6 d-grid p-1">
+          <button type="button" class="btn btn-lg btn-danger" @click="productInsert">저장</button>
+        </div>
+      </div>
+
+    </div>
+  </main>
 </template>
 
 <script>
@@ -158,24 +171,24 @@ export default {
                 return this.$swal('카테고리를 선택해 주세요.');
             }
 
-            if(this.product.outbount_days == '' || this.product.outbount_days === 0) {
-                this.$refs.outbount_days.focus();
+            if(this.product.outbound_days === '' || this.product.outbound_days === 0) {
+                this.$refs.outbound_days.focus();
                 return this.$swal('출고일을 입력하세요.');
             }
 
             this.$swal.fire({
                 title: '정말 등록 하시겠습니까?',
-                showCancelButton: true,
+                showCancelButton: true, 
                 confirmButtonText: '등록',
-                cancelButton: '취소',
-            }).then(async rs => {
-                if(rs.isConfirmed) {
-                    const res = this.$post('/api/productInsert', this.product);
-                    console.log(res);
-                    this.$swal.fire('저장됐습니다.', '', 'success');
-                    this.$router.push({path: '/sales'});
+                cancelButtonText: '취소'
+            }).then(async result => {
+                if(result.isConfirmed) {
+                const res = this.$post('/api/productInsert', this.product);
+                console.log(res);
+                this.$swal.fire('저장되었습니다.', '', 'success');
+                this.$router.push( {path: '/sales'} );
                 }
-            })
+            });
         },
         goToList() {
             this.$router.push({path: '/sales'});
