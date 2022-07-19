@@ -24,16 +24,14 @@
                         <td>{{ product.product_price }}</td>
                         <td>{{ product.delivery_price }}</td>
                         <td>{{ product.add_delivery_price }}</td>
-                        <td>
-                            <router-link class="nav-link" :to="{path: '/image_insert', query: {product_id: product.id}}">
+                        <td class="d-flex">
+                            <router-link class="nav-link" :to="{ path: '/image_insert', query: {product_id: product.id} }">
                                 <button type="button" class="btn btn-info me-1">사진등록</button>
                             </router-link>
-                            <router-link class="nav-link" :to="{path: '/update', query: {product_id: product.id}}">
+                            <router-link class="nav-link" :to="{ path: '/update', query: {product_id: product.id} }">
                                 <button type="button" class="btn btn-warning me-1">수정</button>
                             </router-link>
-                            <router-link>
-                                <button type="button" class="btn btn-danger me-1">삭제</button>
-                            </router-link>
+                            <button type="button" class="btn btn-danger">삭제</button>
                         </td>
                     </tr>
                 </tbody>
