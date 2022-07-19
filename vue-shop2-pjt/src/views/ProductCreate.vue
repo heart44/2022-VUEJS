@@ -50,11 +50,10 @@
                             </select>
                         </div>
                         <div class="col-auto" v-if="cate2 !== ''">
-                            <select class="form-select" v-model="selectedCateId">   <!-- in: 배열-->
+                            <select class="form-select" v-model="product.category_id">   <!-- in: 배열-->
                                 <option :value="cate.id" :key="cate.id" v-for="cate in categoryObj[cate1][cate2]">{{ cate.value }}</option>
                             </select>
                         </div>
-                        {{ selectedCateId }}
                     </div>
                 </div>
             </div>
@@ -78,7 +77,7 @@
                     <button type="button" class="btn btn-lg btn-dark" @click="goToList">취소하기</button>
                 </div>
                 <div class="col-6 d-grid p-1">
-                    <button type="button" class="btn btn-lg btn-warning" @click="productInsert">저장하기</button>
+                    <button type="button" class="btn btn-lg btn-danger" @click="productInsert">저장하기</button>
                 </div>
             </div>
         </div>
@@ -96,13 +95,12 @@ export default {
                 add_delivery_price: 0,
                 tags: "",
                 outbount_days: 0,
-                category_id: 1,
+                category_id: '',
                 seller_id: 1
             },
             categoryObj: {},
             cate1: '',
             cate2: '',
-            selectedCateId: '',
         }
     },
     created() {
@@ -135,10 +133,10 @@ export default {
         },
         changeCate1() {
             this.cate2 = '';
-            this.selectedCateId = '';
+            this.product.category_id = '';
         },
         changeCate2() {
-            this.selectedCateId = '';
+            this.product.category_id = '';
         },
         productInsert() {
             if(this.product.product_name.trim() == '') {
@@ -156,16 +154,34 @@ export default {
                 return this.$swal('배송비를 입력하세요.');
             }
 
+            if(this.product.category_id === '') {
+                return this.$swal('카테고리를 선택해 주세요.');
+            }
+
             if(this.product.outbount_days == '' || this.product.outbount_days === 0) {
                 this.$refs.outbount_days.focus();
                 return this.$swal('출고일을 입력하세요.');
             }
+
+            this.$swal.fire({
+                title: '정말 등록 하시겠습니까?',
+                showCancelButton: true,
+                confirmButtonText: '등록',
+                cancelButton: '취소',
+            }).then(async rs => {
+                if(rs.isConfirmed) {
+                    const res = this.$post('/api/productInsert', this.product);
+                    console.log(res);
+                    this.$swal.fire('저장됐습니다.', '', 'success');
+                    this.$router.push({path: '/sales'});
+                }
+            })
         },
         goToList() {
             this.$router.push({path: '/sales'});
         }
     }
-    //로그인확인 computed, mounted 둘 다 적어야 함, 페이지가 많아질 수록 비효율적 -> 라우터로 해결
+    //로그인 체크는 computed, mounted 둘 다 적어야 함, 페이지가 많아질 수록 비효율적 -> 라우터로 해결할 예정
     // computed: {
     //     user() {
     //         return this.$store.state.user;

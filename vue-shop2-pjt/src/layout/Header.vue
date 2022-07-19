@@ -20,15 +20,15 @@
                         <router-link class="nav-link" to="/sales">제품등록</router-link>
                     </li>
                     <li v-if="user.email === undefined">
-                        <button class="btn btn-warning" type="button" @click="kakaoLogin">로그인</button>
+                        <button class="btn btn-danger" type="button" @click="kakaoLogin">로그인</button>
                     </li>
                     <li v-else>
-                        <button class="btn btn-warning" type="button" @click="kakaoLogout">로그아웃</button>
+                        <button class="btn btn-danger" type="button" @click="kakaoLogout">로그아웃</button>
                     </li>
                 </ul>
                 <form class="d-flex">
                     <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-warning" type="submit">Search</button>
+                    <button class="btn btn-outline-danger text-white" type="submit">Search</button>
                 </form>
             </div>
         </div>
