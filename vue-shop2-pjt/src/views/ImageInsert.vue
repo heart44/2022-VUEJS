@@ -15,11 +15,10 @@
                 <label class="col-md-3 col-form-label">썸네일 이미지</label>
                 <div class="col-md-9">
                     <div class="row">
-                        {{productImage}}
                         <div class="col-lg-3 col-md-4 col-sm-2" :key="item.id" v-for="(item) in productImage.filter(c => c.type === 1)">
                             <div class="position-relative">
-                                <img :src="item.path" class="img-fluid">
-                                <div class="position-absolute top-0 end-0" style="cursor:pointer;">X</div>
+                                <img :src="getScr(item.type, item.path)" class="img-fluid">
+                                <div class="position-absolute top-0 end-0" style="cursor:pointer;" @click="deleteImage(item.id, item.type, item.path);">X</div>
                             </div>
                         </div>
                     </div>
@@ -38,8 +37,12 @@
                 <label class="col-md-3 col-form-label">제품 이미지</label>
                 <div class="col-md-9">
                     <div class="row">
-                        <div class="col-lg-3 col-md-4 col-sm-2" :key="d">TODO: 제품 이미지 리스트 가져오는 로직 후 구현</div>
-                    </div>
+                        <div class="col-lg-3 col-md-4 col-sm-2" :key="item.id" v-for="(item) in productImage.filter(c => c.type === 2)">
+                            <div class="position-relative">
+                                <img :src="getScr(item.type, item.path)" class="img-fluid">
+                                <div class="position-absolute top-0 end-0" style="cursor:pointer;" @click="deleteImage(item.id, item.type, item.path);">X</div>
+                            </div>
+                        </div>                    </div>
                     <input type="file" class="form-control" accept="image/png,image/jpeg" @change="uploadFile($event.target.files, 2)">
                     <div class="alert alert-secondary" role="alert">
                         <ul>
@@ -56,7 +59,12 @@
                 <label class="col-md-3 col-form-label">제품 설명 이미지</label>
                 <div class="col-md-9">
                     <div class="row">
-                        <div class="col-lg-3 col-md-4 col-sm-2" :key="d">TODO: 설명 이미지 리스트 가져오는 로직 후 구현</div>
+                        <div class="col-lg-3 col-md-4 col-sm-2" :key="item.id" v-for="(item) in productImage.filter(c => c.type === 3)">
+                            <div class="position-relative">
+                                <img :src="getScr(item.type, item.path)" class="img-fluid">
+                                <div class="position-absolute top-0 end-0" style="cursor:pointer;" @click="deleteImage(item.id, item.type, item.path);">X</div>
+                            </div>
+                        </div>
                     </div>
                     <input type="file" class="form-control" accept="image/png,image/jpeg" @change="uploadFile($event.target.files, 3)">
                     <div class="alert alert-secondary" role="alert">
@@ -78,7 +86,7 @@
 </template>
 
 <script>
-import ProductListVue from './ProductList.vue';
+import ProductDetailVue from './ProductDetail.vue';
 export default {
     data() {
         return {
@@ -106,6 +114,14 @@ export default {
             const { error } = await this.$post(`/api/upload/${this.productDetail.id}/${type}`, formData);
             console.log(error);
         },
+        getScr(type, path) {
+            return `static/img/${this.productDetail.id}/${type}/${path}`
+        },
+        async deleteImage(id, type, path) {
+            // const rs = await this.$delete(`/api/productImageDelete/${id}`);
+            const rs = await this.$delete(`/api/productImageDelete/${id}/${this.productDetail.id}/${type}/${path}`);
+            console.log(rs);
+        }
     }
 }
 </script>
