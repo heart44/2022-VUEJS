@@ -15,7 +15,9 @@
                 <label class="col-md-3 col-form-label">썸네일 이미지</label>
                 <div class="col-md-9">
                     <div class="row">
-                        <div class="col-lg-3 col-md-4 col-sm-2" :key="d">TODO: 썸네일 이미지 리스트 가져오는 로직 후 구현</div>
+                        <div class="col-lg-3 col-md-4 col-sm-2" :key="d">
+
+                        </div>
                     </div>
                     <input type="file" class="form-control" accept="image/png,image/jpeg" @change="uploadFile($event.target.files, 1)">
                     <div class="alert alert-secondary" role="alert">
@@ -34,7 +36,7 @@
                     <div class="row">
                         <div class="col-lg-3 col-md-4 col-sm-2" :key="d">TODO: 제품 이미지 리스트 가져오는 로직 후 구현</div>
                     </div>
-                    <input type="file" class="form-control" accept="image/png,image/jpeg" @change="uploadFile($event.target.files, 2)" multiple>
+                    <input type="file" class="form-control" accept="image/png,image/jpeg" @change="uploadFile($event.target.files, 2)">
                     <div class="alert alert-secondary" role="alert">
                         <ul>
                             <li>최대 5개 가능</li>
@@ -85,6 +87,9 @@ export default {
         this.productDetail = this.$store.state.sallerSelectedProduct;
     },
     methods: {
+        async getProductImage() {
+            this.productImage = await this.$get('/api/imageList', { productId: this.productDetail.id });
+        },
         async uploadFile(files, type) {
             console.log(files);
             const image = await this.$base64(files[0]);
