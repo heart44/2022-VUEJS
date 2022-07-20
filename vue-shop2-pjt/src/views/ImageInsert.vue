@@ -15,8 +15,12 @@
                 <label class="col-md-3 col-form-label">썸네일 이미지</label>
                 <div class="col-md-9">
                     <div class="row">
-                        <div class="col-lg-3 col-md-4 col-sm-2" :key="d">
-
+                        {{productImage}}
+                        <div class="col-lg-3 col-md-4 col-sm-2" :key="item.id" v-for="(item) in productImage.filter(c => c.type === 1)">
+                            <div class="position-relative">
+                                <img :src="item.path" class="img-fluid">
+                                <div class="position-absolute top-0 end-0" style="cursor:pointer;">X</div>
+                            </div>
                         </div>
                     </div>
                     <input type="file" class="form-control" accept="image/png,image/jpeg" @change="uploadFile($event.target.files, 1)">
@@ -74,21 +78,26 @@
 </template>
 
 <script>
+import ProductListVue from './ProductList.vue';
 export default {
     data() {
         return {
             productName: '',
             productDetail: {},
-            productImage: []
+            productImage: [],
         }
     },
     created() {
         this.productId = this.$route.query.product_id
         this.productDetail = this.$store.state.sallerSelectedProduct;
+        this.getProductImage()
+    },
+    updated() {
+        this.getProductImage()
     },
     methods: {
         async getProductImage() {
-            this.productImage = await this.$get('/api/imageList', { productId: this.productDetail.id });
+            this.productImage = await this.$get(`/api/productImageList/${this.productDetail.id}`);
         },
         async uploadFile(files, type) {
             console.log(files);
@@ -96,7 +105,7 @@ export default {
             const formData = { image };
             const { error } = await this.$post(`/api/upload/${this.productDetail.id}/${type}`, formData);
             console.log(error);
-        }
+        },
     }
 }
 </script>
