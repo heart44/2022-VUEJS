@@ -18,7 +18,7 @@
                         <div class="col-lg-3 col-md-4 col-sm-2" :key="item.id" v-for="(item) in productImage.filter(c => c.type === 1)">
                             <div class="position-relative">
                                 <img :src="getScr(item.type, item.path)" class="img-fluid">
-                                <div class="position-absolute top-0 end-0" style="cursor:pointer;" @click="deleteImage(item.id, item.type, item.path);">X</div>
+                                <div class="position-absolute top-0 end-0" style="cursor:pointer;" @click="deleteImage(item);">X</div>
                             </div>
                         </div>
                     </div>
@@ -40,7 +40,7 @@
                         <div class="col-lg-3 col-md-4 col-sm-2" :key="item.id" v-for="(item) in productImage.filter(c => c.type === 2)">
                             <div class="position-relative">
                                 <img :src="getScr(item.type, item.path)" class="img-fluid">
-                                <div class="position-absolute top-0 end-0" style="cursor:pointer;" @click="deleteImage(item.id, item.type, item.path);">X</div>
+                                <div class="position-absolute top-0 end-0" style="cursor:pointer;" @click="deleteImage(item);">X</div>
                             </div>
                         </div>                    </div>
                     <input type="file" class="form-control" accept="image/png,image/jpeg" @change="uploadFile($event.target.files, 2)">
@@ -62,7 +62,7 @@
                         <div class="col-lg-3 col-md-4 col-sm-2" :key="item.id" v-for="(item) in productImage.filter(c => c.type === 3)">
                             <div class="position-relative">
                                 <img :src="getScr(item.type, item.path)" class="img-fluid">
-                                <div class="position-absolute top-0 end-0" style="cursor:pointer;" @click="deleteImage(item.id, item.type, item.path);">X</div>
+                                <div class="position-absolute top-0 end-0" style="cursor:pointer;" @click="deleteImage(item);">X</div>
                             </div>
                         </div>
                     </div>
@@ -86,7 +86,6 @@
 </template>
 
 <script>
-import ProductDetailVue from './ProductDetail.vue';
 export default {
     data() {
         return {
@@ -117,9 +116,9 @@ export default {
         getScr(type, path) {
             return `static/img/${this.productDetail.id}/${type}/${path}`
         },
-        async deleteImage(id, type, path) {
-            // const rs = await this.$delete(`/api/productImageDelete/${id}`);
-            const rs = await this.$delete(`/api/productImageDelete/${id}/${this.productDetail.id}/${type}/${path}`);
+        async deleteImage({id, product_id, type, path}) {
+            // const rs = await this.$delete(`/api/productImageDelete/${id}`);  //백에서 셀렉트 함수 하나 더 만들어서 해결하는 방법
+            const rs = await this.$delete(`/api/productImageDelete/${id}/${product_id}/${type}/${path}`);
             console.log(rs);
         }
     }
