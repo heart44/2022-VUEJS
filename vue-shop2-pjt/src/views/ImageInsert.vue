@@ -34,7 +34,7 @@
                     <div class="row">
                         <div class="col-lg-3 col-md-4 col-sm-2" :key="d">TODO: 제품 이미지 리스트 가져오는 로직 후 구현</div>
                     </div>
-                    <input type="file" class="form-control" accept="image/png,image/jpeg" @change="uploadFile($event.target.files, 2)">
+                    <input type="file" class="form-control" accept="image/png,image/jpeg" @change="uploadFile($event.target.files, 2)" multiple>
                     <div class="alert alert-secondary" role="alert">
                         <ul>
                             <li>최대 5개 가능</li>
@@ -85,6 +85,12 @@ export default {
         this.productDetail = this.$store.state.sallerSelectedProduct;
     },
     methods: {
+        async uploadFile(files, type) {
+            console.log(files);
+            if(aa) {
+
+            }
+        }
     }
 }
 </script>
