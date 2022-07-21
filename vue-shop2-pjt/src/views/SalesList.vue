@@ -67,7 +67,7 @@ export default {
                 cancelButtonText: '취소'
             }).then(async result => {
                 if(result.isConfirmed) {
-                const res = this.$delete(`api/productDelete/${productId}`);
+                const res = await this.$delete(`api/productDelete/${productId}`);
                 console.log(res);
                 this.$swal.fire('삭제되었습니다.', '', 'success');
                 this.$router.push( {path: '/sales'} );
@@ -79,6 +79,9 @@ export default {
         },
     },
     created() {
+        this.getProductList();
+    },
+    updated() {
         this.getProductList();
     }
 }
