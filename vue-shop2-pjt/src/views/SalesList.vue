@@ -34,7 +34,7 @@
                             <router-link class="nav-link" :to="{ path: '/update', query: {product_id: product.id} }">
                                 <button type="button" class="btn btn-warning me-1">수정</button>
                             </router-link>
-                            <button type="button" class="btn btn-danger">삭제</button>
+                            <button type="button" class="btn btn-danger" @click="deleteProduct(product.id)">삭제</button>
                         </td>
                     </tr>
                 </tbody>
@@ -59,6 +59,21 @@ export default {
             this.$store.commit('sallerSelectedProduct', this.productList[idx]);
             this.$router.push( {path: '/image_insert'} );
         },
+        deleteProduct(productId) {
+            this.$swal.fire({
+                title: '정말 삭제 하시겠습니까?',
+                showCancelButton: true, 
+                confirmButtonText: '삭제',
+                cancelButtonText: '취소'
+            }).then(async result => {
+                if(result.isConfirmed) {
+                const res = this.$delete(`api/productDelete/${productId}`);
+                console.log(res);
+                this.$swal.fire('삭제되었습니다.', '', 'success');
+                this.$router.push( {path: '/sales'} );
+                }
+            });
+        },
         getScr(id, type, path) {
             return `static/img/${id}/${type}/${path}`
         },
@@ -70,5 +85,5 @@ export default {
 </script>
 
 <style scopred>
-    td, th { text-align: center; }
+    th, td { text-align: center; }
 </style>
