@@ -58,6 +58,13 @@
             <div class="mb-3 row">
                 <label class="col-md-3 col-form-label">제품 설명 이미지</label>
                 <div class="col-md-9">
+                    <input type="file" class="form-control" accept="image/png,image/jpeg" @change="uploadFile($event.target.files, 3)">
+                    <div class="alert alert-secondary" role="alert">
+                        <ul>
+                            <li>파일 사이즈 : 5Mb 이하</li>
+                            <li>파일 확장자 : png, jpg만 가능</li>
+                        </ul>
+                    </div>
                     <div class="row">
                         <div class="col-lg-3 col-md-4 col-sm-2" :key="item.id" v-for="(item) in productImage.filter(c => c.type === 3)">
                             <div class="position-relative">
@@ -65,13 +72,6 @@
                                 <div class="position-absolute top-0 end-0" style="cursor:pointer;" @click="deleteImage(item);">X</div>
                             </div>
                         </div>
-                    </div>
-                    <input type="file" class="form-control" accept="image/png,image/jpeg" @change="uploadFile($event.target.files, 3)">
-                    <div class="alert alert-secondary" role="alert">
-                        <ul>
-                            <li>파일 사이즈 : 5Mb 이하</li>
-                            <li>파일 확장자 : png, jpg만 가능</li>
-                        </ul>
                     </div>
                 </div>
             </div>

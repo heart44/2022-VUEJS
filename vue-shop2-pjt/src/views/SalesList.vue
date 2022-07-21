@@ -19,7 +19,9 @@
                 </thead>
                 <tbody>
                     <tr :key="product.id" v-for="(product, idx) in productList">
-                        <td></td>
+                        <td>
+                            <img v-if="product.path !== null" :src="getScr(product.id, 1, product.path)" style="height:50px; width:auto;">
+                        </td>
                         <td>{{ product.product_name }}</td>
                         <td>{{ product.product_price }}</td>
                         <td>{{ product.delivery_price }}</td>
@@ -56,7 +58,10 @@ export default {
         goToImageInsert(idx) {
             this.$store.commit('sallerSelectedProduct', this.productList[idx]);
             this.$router.push( {path: '/image_insert'} );
-        }
+        },
+        getScr(id, type, path) {
+            return `static/img/${id}/${type}/${path}`
+        },
     },
     created() {
         this.getProductList();
