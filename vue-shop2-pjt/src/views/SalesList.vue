@@ -26,7 +26,7 @@
                         <td>{{ product.product_price }}</td>
                         <td>{{ product.delivery_price }}</td>
                         <td>{{ product.add_delivery_price }}</td>
-                        <td class="d-flex justify-content-center">
+                        <td class="d-flex justify-content-center align-items-center">
                             <!-- <router-link class="nav-link" :to="{ path: '/image_insert', query: {product_id: product.id} }">
                                 <button type="button" class="btn btn-info me-1">사진등록</button>
                             </router-link> -->
@@ -47,7 +47,10 @@
 export default {
     data() {
         return {
-            productList: []
+            productList: [],
+            cate1List: [],
+            cate2List: [],
+            cate3List: []
         }
     },
     methods: {
@@ -90,5 +93,5 @@ export default {
 </script>
 
 <style scopred>
-    th, td { text-align: center; }
+    th, td { text-align: center; margin: 0 auto; }
 </style>
