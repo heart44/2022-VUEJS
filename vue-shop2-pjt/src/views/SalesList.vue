@@ -34,7 +34,7 @@
                             <router-link class="nav-link" :to="{ path: '/update', query: {product_id: product.id} }">
                                 <button type="button" class="btn btn-warning me-1">수정</button>
                             </router-link>
-                            <button type="button" class="btn btn-danger" @click="deleteProduct(product.id)">삭제</button>
+                            <button type="button" class="btn btn-danger" @click="deleteProduct(product.id, idx)">삭제</button>
                         </td>
                     </tr>
                 </tbody>
@@ -59,7 +59,7 @@ export default {
             this.$store.commit('sallerSelectedProduct', this.productList[idx]);
             this.$router.push( {path: '/image_insert'} );
         },
-        deleteProduct(productId) {
+        deleteProduct(productId, idx) {
             this.$swal.fire({
                 title: '정말 삭제 하시겠습니까?',
                 showCancelButton: true, 
@@ -67,10 +67,12 @@ export default {
                 cancelButtonText: '취소'
             }).then(async result => {
                 if(result.isConfirmed) {
-                const res = await this.$delete(`api/productDelete/${productId}`);
-                console.log(res);
-                this.$swal.fire('삭제되었습니다.', '', 'success');
-                this.$router.push( {path: '/sales'} );
+                    const res = await this.$delete(`api/productDelete/${productId}`);
+                    console.log('dd'+ res.result);
+                    if(res.result) {
+                        this.productList.splice(idx, 1);
+                        this.$swal.fire('삭제되었습니다.', '', 'success');
+                    }
                 }
             });
         },
@@ -81,9 +83,9 @@ export default {
     created() {
         this.getProductList();
     },
-    updated() {
-        this.getProductList();
-    }
+    // updated() {
+    //     this.getProductList();
+    // }
 }
 </script>
 
