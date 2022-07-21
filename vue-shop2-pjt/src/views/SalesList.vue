@@ -65,10 +65,10 @@ export default {
                 showCancelButton: true, 
                 confirmButtonText: '삭제',
                 cancelButtonText: '취소'
-            }).then(async result => {
-                if(result.isConfirmed) {
+            }).then(async rs => {
+                if(rs.isConfirmed) {
                     const res = await this.$delete(`api/productDelete/${productId}`);
-                    console.log('dd'+ res.result);
+                    // console.log('dd'+ res);
                     if(res.result) {
                         this.productList.splice(idx, 1);
                         this.$swal.fire('삭제되었습니다.', '', 'success');
