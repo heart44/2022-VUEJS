@@ -53,7 +53,7 @@ export default {
     methods: {
         async getProductList() {
             this.productList = await this.$get('/api/productList2', {});
-            console.log(this.productList);
+            // console.log(this.productList);
         },
         goToImageInsert(idx) {
             this.$store.commit('sallerSelectedProduct', this.productList[idx]);
